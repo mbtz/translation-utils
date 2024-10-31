@@ -114,12 +114,12 @@ def update_translations(excel_file, language_sheet, ts_file):
     print(Fore.GREEN + f"Translations for '{language_sheet}' updated successfully in {ts_filename}.")
 
 
-# Main script entry point
-if __name__ == "__main__":
+# Main
+def main():
     # Check for command-line arguments
     if len(sys.argv) != 4:
         print(
-            Fore.RED + "Usage: python update_translations.py <excel_file> <language_sheet> <ts_file>"
+            Fore.RED + "Usage: import-translations <excel_file_path> <language_sheet_name> <ts_file_path>"
         )
         sys.exit(1)
 
@@ -130,3 +130,8 @@ if __name__ == "__main__":
 
     # Run the update function
     update_translations(excel_file, language_sheet, ts_file)
+
+
+# Main script entry point
+if __name__ == "__main__":
+    main()

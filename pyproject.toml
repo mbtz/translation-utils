@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Command line tools for extracting and importing translations from and to excel files"
 authors = ["Marius Holter Berntzen <mhberntzen@gmail.com>"]
 readme = "README.md"
+packages = [{include = "import_translations", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -11,6 +12,8 @@ openpyxl = "^3.1.5"
 pandas = "^2.2.3"
 colorama = "^0.4.6"
 
+[tool.poetry.scripts]
+import-translations = "import_translations.import_translations:main"
 
 [build-system]
 requires = ["poetry-core"]
