@@ -2,6 +2,10 @@ import os
 import sys
 import pandas as pd
 import re
+from colorama import Fore, Style, init
+
+# Initialize colorama
+init(autoreset=True)
 
 
 def find_placeholders(text):
@@ -50,7 +54,7 @@ def update_translations(excel_file, language_sheet, ts_file):
 
     # Ensure the required columns (A, B, and C) are present
     if df.shape[1] < 3:
-        print("Error: The Excel file does not contain the required columns.")
+        print(Fore.RED + "Error: The Excel file does not contain the required columns.")
         return
 
     # Extract keys, English text (for reference), and translations
@@ -71,7 +75,7 @@ def update_translations(excel_file, language_sheet, ts_file):
 
         # Skip if the translation is empty
         if pd.isna(translation) or translation.strip() == "":
-            print(f"Skipping: '{key}': translation is empty.")
+            print(Fore.CYAN + f"Skipping '{key}': translation is empty.")
             continue
 
         # Check for placeholder mismatch between English and translated text
@@ -80,7 +84,9 @@ def update_translations(excel_file, language_sheet, ts_file):
 
         if english_placeholders != translation_placeholders:
             print(
-                f"Warning: Placeholder mismatch for key '{key}'. Skipping substitution. Expected '{english_placeholders}', found '{translation_placeholders}'."
+                Fore.LIGHTRED_EX +
+                f"Error: Placeholder mismatch for key '{key}'. Skipping substitution. "
+                f"Expected '{english_placeholders}', found '{translation_placeholders}'."
             )
             continue
 
@@ -99,13 +105,13 @@ def update_translations(excel_file, language_sheet, ts_file):
                 ts_content,
             )
         else:
-            print(f"Error: No match found for key '{key}' in {ts_filename}")
+            print(Fore.RED + f"Error: No match found for key '{key}' in {ts_filename}")
 
     # Write the updated content back to the TypeScript file
     with open(ts_file, "w", encoding="utf-8") as file:
         file.write(ts_content)
 
-    print(f"Translations for '{language_sheet}' updated successfully in {ts_filename}.")
+    print(Fore.GREEN + f"Translations for '{language_sheet}' updated successfully in {ts_filename}.")
 
 
 # Main script entry point
@@ -113,7 +119,7 @@ if __name__ == "__main__":
     # Check for command-line arguments
     if len(sys.argv) != 4:
         print(
-            "Usage: python update_translations.py <excel_file> <language_sheet> <ts_file>"
+            Fore.RED + "Usage: python update_translations.py <excel_file> <language_sheet> <ts_file>"
         )
         sys.exit(1)
 
