@@ -1,19 +1,26 @@
 import argparse
-
 from colorama import Fore, init
 from import_translations.import_translations import main as import_main
 from export_translations.export_translations import main as export_main
+import importlib.metadata
 
 # Initialize colorama
 init(autoreset=True)
 
-
 def main():
+    # Retrieve the package version dynamically
+    version = importlib.metadata.version("translations-util")
+
+    # Set up the argument parser
     parser = argparse.ArgumentParser(
         prog="translation-util",
         description=Fore.YELLOW + "Utility tool for importing and exporting translations to and from Excel files." + Fore.RESET
     )
 
+    # Define the version flag
+    parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {version}")
+
+    # Define subcommands
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Define the `import` subcommand

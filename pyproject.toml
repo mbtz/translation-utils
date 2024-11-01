@@ -1,10 +1,14 @@
 [tool.poetry]
 name = "translations-util"
-version = "0.2.1"
+version = "0.2.3"
 description = "Command line tools for extracting and importing translations from and to excel files"
 authors = ["Marius Holter Berntzen <mhberntzen@gmail.com>"]
 readme = "README.md"
-packages = [{include = "import_translations", from = "src"}, {include = "export_translations", from = "src"}, {include = "src"}]
+packages = [
+    {include = "import_translations", from = "src"},
+    {include = "export_translations", from = "src"},
+    {include = "src"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -13,7 +17,7 @@ pandas = "^2.2.3"
 colorama = "^0.4.6"
 
 [tool.poetry.scripts]
-translation-util = "cli:main"
+translation-util = "src.cli:main"  # Point directly to cli.py
 
 [build-system]
 requires = ["poetry-core"]
