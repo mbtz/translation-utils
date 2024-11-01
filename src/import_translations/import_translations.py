@@ -15,7 +15,7 @@ def find_placeholders(text):
     return set(re.findall(r"\{(\w+)\}", text))
 
 
-def update_translations(excel_file, language_sheet, ts_file):
+def update_translations(excel_file, ts_file, language_sheet):
     # Extract the last section of the ts_file path
     ts_filename = os.path.basename(ts_file)
 
@@ -85,23 +85,12 @@ def update_translations(excel_file, language_sheet, ts_file):
 
 
 # Main
-def main():
-    # Check for command-line arguments
-    if len(sys.argv) != 4:
-        print(
-            Fore.RED + "Usage: import-translations <excel_file_path> <language_sheet_name> <ts_file_path>"
-        )
+def main(args=None):
+    import sys
+    args = args or sys.argv[1:]
+    if len(args) != 3:
+        print(Fore.LIGHTGREEN_EX + "Usage: translation-util import <excel_file> <ts_file> <sheet_name>")
         sys.exit(1)
 
-    # Get arguments
-    excel_file = sys.argv[1]
-    language_sheet = sys.argv[2]
-    ts_file = sys.argv[3]
-
-    # Run the update function
-    update_translations(excel_file, language_sheet, ts_file)
-
-
-# Main script entry point
-if __name__ == "__main__":
-    main()
+    excel_file, ts_file, sheet_name = args
+    update_translations(excel_file, ts_file, sheet_name)

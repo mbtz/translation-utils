@@ -48,21 +48,13 @@ def export_translations_to_excel(ts_file, excel_file, sheet_name):
     print(Fore.GREEN + f"Translations exported to '{excel_file}' in sheet '{sheet_name}' successfully.")
 
 
-def main():
+def main(args=None):
     import sys
-
-    if len(sys.argv) != 4:
-        print(
-            Fore.RED + "Usage: export_translations <ts_file> <excel_file> <sheet_name>"
-        )
+    args = args or sys.argv[1:]
+    if len(args) != 3:
+        print(Fore.LIGHTGREEN_EX + "Usage: translation-util export <ts_file> <excel_file> <sheet_name>")
         sys.exit(1)
 
-    ts_file = sys.argv[1]
-    excel_file = sys.argv[2]
-    sheet_name = sys.argv[3]
-
+    ts_file, excel_file, sheet_name = args
     export_translations_to_excel(ts_file, excel_file, sheet_name)
-
-if __name__ == '__main__':
-    main()
 

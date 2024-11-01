@@ -31,7 +31,7 @@ Which will install the utils as a development dependency in your local python en
 
 ## Usage
 
-This tool allows you to update translations in a TypeScript file based on an Excel file. The Excel file should contain 
+This tool allows you to update translations in a TypeScript file based on an Excel file. The Excel file should contain
 the translations in a specific format.
 
 <details open>
@@ -40,26 +40,40 @@ the translations in a specific format.
 
 ### Command
 ```sh
-import-translations <excel_file_path> <language_sheet_name> <ts_file_path>
+translation-util {import,export} ...
 ```
 
-- `<excel_file_path>`: Path to the Excel file containing the translations.
-- `<language_sheet_name>`: Name of the sheet in the Excel file that contains the translations.
-- `<ts_file_path>`: Path to the TypeScript file to be updated.
+#### Import Command
+```sh
+translation-util import <excel_file> <ts_file> <sheet_name>
+```
+
+- `<excel_file>`: Path to the Excel file containing the translations.
+- `<ts_file>`: Path to the TypeScript file to be updated.
+- `<sheet_name>`: Name of the sheet in the Excel file that contains the translations.
+
+#### Export Command
+```sh
+translation-util export <ts_file> <excel_file> <sheet_name>
+```
+
+- `<ts_file>`: Path to the TypeScript file containing translations.
+- `<excel_file>`: Path to the Excel file to save exported translations.
+- `<sheet_name>`: Sheet name to save translations under in the Excel file.
 
 ### Example
 ```sh
-import-translations path/to/translations.xlsx French path/to/translations-french.ts
+translation-util import path/to/translations.xlsx path/to/translations-french.ts French
 ```
-This command will update the `translations-french.ts` file with the French translations from the `translations.xlsx` 
+This command will update the `translations-french.ts` file with the French translations from the `translations.xlsx`
 file, under the `French` Excel sheet name.
-</details>
 
-### Command Line Usage with python
-### Example
 ```sh
-python import_translations.py translations.xlsx French translations.ts
+translation-util export path/to/translations-french.ts path/to/translations.xlsx French
 ```
+This command will export the translations from the `translations-french.ts` file to the `translations.xlsx` file, under the `French` Excel sheet name.
+The Excel will follow the format from the [Excel File Format](#Excel-File-Format) section.
+</details>
 
 
 ## Excel File Format
@@ -77,7 +91,7 @@ The Excel file should have at least three columns:
 ### Example
 Assuming the Excel workbook has a sheet named `French` with the following content:
 
-| Key                                          | English Text                           | French                                |
+| Key                                          | English Text                           | French text                           |
 |----------------------------------------------|----------------------------------------|---------------------------------------|
 | common.greeting-{name}                       | Hello, {name}!                         | Bonjour, {name}!                      |
 | common.goodbye                               | Goodbye!                               | Au revoir!                            |
@@ -114,3 +128,4 @@ poetry install
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE.txt) file for details.
+
