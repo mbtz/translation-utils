@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "translations-util"
-version = "0.2.3"
+version = "0.2.4"
 description = "Command line tools for extracting and importing translations from and to excel files"
 authors = ["Marius Holter Berntzen <mhberntzen@gmail.com>"]
 readme = "README.md"

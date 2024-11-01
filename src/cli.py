@@ -39,7 +39,7 @@ def main():
     args = parser.parse_args()
 
     if args.command == "import":
-        import_main([args.excel_file, args.sheet_name, args.ts_file])
+        import_main([args.excel_file, args.ts_file, args.sheet_name])
     elif args.command == "export":
         export_main([args.ts_file, args.excel_file, args.sheet_name])
     else:
