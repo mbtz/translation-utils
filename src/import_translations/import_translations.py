@@ -4,6 +4,8 @@ import pandas as pd
 import re
 from colorama import Fore, Style, init
 
+from src.util import find_translation_blocks
+
 # Initialize colorama
 init(autoreset=True)
 
@@ -11,38 +13,6 @@ init(autoreset=True)
 def find_placeholders(text):
     """Finds all placeholders in the format {variable} in a given text."""
     return set(re.findall(r"\{(\w+)\}", text))
-
-
-def preprocess_translation_blocks(ts_content):
-    """
-    Detects translation blocks marked by `// TODO: vvv Translate below vvv`
-    and `// TODO: ^^^ Translate above ^^^` and appends `// TODO: Translate`
-    to each line within the block.
-    """
-    lines = ts_content.splitlines()
-    in_translation_block = False
-    processed_lines = []
-
-    for line in lines:
-        # Detect the start of a translation block
-        if re.match(r"//+Translate below", line):
-            in_translation_block = True
-            continue  # Skip this line
-
-        # Detect the end of a translation block
-        if re.match(r"//+Translate above", line):
-            in_translation_block = False
-            continue  # Skip this line
-
-        # If within a translation block, add `// TODO: Translate` to each line
-        if in_translation_block:
-            # Append `// TODO: Translate` if not already present
-            if re.match(r"\s*'.*',?\s*$", line):  # Match key-value lines
-                line += " // TODO: Translate"
-
-        processed_lines.append(line)
-
-    return "\n".join(processed_lines)
 
 
 def update_translations(excel_file, language_sheet, ts_file):
@@ -67,7 +37,7 @@ def update_translations(excel_file, language_sheet, ts_file):
         ts_content = file.read()
 
     # Preprocess translation blocks to add `// TODO: Translate` where needed
-    ts_content = preprocess_translation_blocks(ts_content)
+    ts_content = find_translation_blocks(ts_content)
 
     # Process each translation
     for _, row in translation_data.iterrows():
